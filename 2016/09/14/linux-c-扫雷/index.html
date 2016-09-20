@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>linux c 扫雷 | 梓奕</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="程序名：sweep_mine.c
+程序功能：在Linux终端通过输入每个小格子的坐标和flag来模拟Window平台自带的扫雷小游戏
+ 
+123456#include &amp;lt; stdio.h&amp;gt;#include &amp;lt; stdlib.h&amp;gt;#include &amp;lt; string.h&amp;gt;#include &amp;lt; time.h&amp;gt;#include &amp;lt; unistd.h&amp;g">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux c 扫雷">
+<meta property="og:url" content="http://nailfar.git.io/2016/09/14/linux-c-扫雷/index.html">
+<meta property="og:site_name" content="梓奕">
+<meta property="og:description" content="程序名：sweep_mine.c
+程序功能：在Linux终端通过输入每个小格子的坐标和flag来模拟Window平台自带的扫雷小游戏
+ 
+123456#include &amp;lt; stdio.h&amp;gt;#include &amp;lt; stdlib.h&amp;gt;#include &amp;lt; string.h&amp;gt;#include &amp;lt; time.h&amp;gt;#include &amp;lt; unistd.h&amp;g">
+<meta property="og:updated_time" content="2016-09-19T06:36:57.137Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="linux c 扫雷">
+<meta name="twitter:description" content="程序名：sweep_mine.c
+程序功能：在Linux终端通过输入每个小格子的坐标和flag来模拟Window平台自带的扫雷小游戏
+ 
+123456#include &amp;lt; stdio.h&amp;gt;#include &amp;lt; stdlib.h&amp;gt;#include &amp;lt; string.h&amp;gt;#include &amp;lt; time.h&amp;gt;#include &amp;lt; unistd.h&amp;g">
+  
+    <link rel="alternative" href="/atom.xml" title="梓奕" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="/img/avatar.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">梓奕</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">I&#39;m the nullpointer but I point to everything</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/nailfar/" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="#" title="weibo">weibo</a>
+					        
+								<a class="rss" target="_blank" href="#" title="rss">rss</a>
+					        
+								<a class="zhihu" target="_blank" href="#" title="zhihu">zhihu</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/C/" style="font-size: 10px;">C</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/other/" style="font-size: 10px;">other</a> <a href="/tags/ubuntu/" style="font-size: 20px;">ubuntu</a> <a href="/tags/扫雷/" style="font-size: 10px;">扫雷</a> <a href="/tags/游戏/" style="font-size: 10px;">游戏</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://zhaokera.github.io">赵凯的神话</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://FTD-ZF.github.io">赵丰的传说</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">我是谁，我从哪里来，我到哪里去？我就是我，敲代码的我…</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">梓奕</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img lazy-src="/img/avatar.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">梓奕</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">I&#39;m the nullpointer but I point to everything</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/nailfar/" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="#" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="#" title="rss">rss</a>
+			        
+						<a class="zhihu" target="_blank" href="#" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-linux-c-扫雷" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/09/14/linux-c-扫雷/" class="article-date">
+  	<time datetime="2016-09-14T05:46:29.000Z" itemprop="datePublished">2016-09-14</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      linux c 扫雷
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C/">C</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/扫雷/">扫雷</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/游戏/">游戏</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <pre><code>程序名：sweep_mine.c
+程序功能：在Linux终端通过输入每个小格子的坐标和flag来模拟Window平台自带的扫雷小游戏
+</code></pre><p> <a href="作者：张峰 [mailto:frankzhang02010@gmail.com]"></a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">#include &lt; stdio.h&gt;</div><div class="line">#include &lt; stdlib.h&gt;</div><div class="line">#include &lt; string.h&gt;</div><div class="line">#include &lt; time.h&gt;</div><div class="line">#include &lt; unistd.h&gt;</div><div class="line">#define Symbol &apos;x&apos;          //打印雷的符号</div></pre></td></tr></table></figure>
+<a id="more"></a>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">int M,N;                    //M:用户设置雷的个数，N:用户输入棋盘的大小（N*N）</div><div class="line"></div><div class="line">typedef struct node&#123;</div><div class="line">    int x;                  //节点映射到二维数组上的行坐标</div><div class="line">    int y;                  //节点映射到二维数组上的列坐标</div><div class="line">    char chess;            //存放棋盘节点的值</div><div class="line">    char mine;              //存放雷盘节点的值</div><div class="line">    struct node* next;      //节点的指针域</div><div class="line">&#125;Node;</div><div class="line"></div><div class="line">Node *head;             //存放雷盘和棋盘及二维数组坐标的结构体的头指针</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">set_size():让用户设置N和M</div><div class="line">title():用来实时显示棋盘大小和当前雷的数量</div><div class="line">panel_init():初始化棋盘，让其刚开始时全部显示为‘*’</div><div class="line">update_panel():将更新后的棋盘打印出来</div><div class="line"></div><div class="line">void set_size(),title(),panel_init(),update_panel();</div><div class="line"></div><div class="line">get_chess():返回棋盘(x,y)节点的棋子的值</div><div class="line">set_chess():设置棋盘(x,y)节点的值为ch</div><div class="line">get_mine():返回雷盘(x,y)节点的棋子的值</div><div class="line">set_mine():设置雷盘(x,y)节点的值为ch</div><div class="line"></div><div class="line">char get_chess(int x,int y);</div><div class="line">void set_chess(int x,int y,char ch);</div><div class="line">char get_mine(Node* head,int x,int y);</div><div class="line">void set_mine(Node* head,int x,int y,char ch);</div><div class="line"></div><div class="line">free_all():将使用完的链表的所有节点内存空间释放</div><div class="line">mine_assign():让雷盘上N*N个点随机产生M个雷，并计算出所有非雷点相邻8个点雷的数量</div><div class="line">show_mine():将雷盘打印出来</div><div class="line">check():判断棋盘和雷盘是否相等，若相等则玩家胜出</div><div class="line"></div><div class="line">void free_all(Node* head);</div><div class="line"></div><div class="line">void mine_assign(),show_mine(),check();</div><div class="line"></div><div class="line">zero_open():当玩家输入的坐标刚好为周围一个雷都没有时，则用递归方式将其周围的非雷点都显示出来</div><div class="line"></div><div class="line">void zero_open(int x,int y);</div></pre></td></tr></table></figure>
+<blockquote>
+<p>int main()</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div></pre></td><td class="code"><pre><div class="line">int main()</div><div class="line">&#123;   </div><div class="line">    int x,y,flag;               //x:存放用户输入的x坐标  y:存放用户输入的y坐标    flag:存放用户输入的选择，0为该点非雷，1为该点是雷</div><div class="line">    char ch;</div><div class="line">    set_size();</div><div class="line">    title();</div><div class="line">    panel_init();</div><div class="line">    mine_assign();</div><div class="line">    while(1)</div><div class="line">    &#123;</div><div class="line">        printf(&quot;[(x,y)_flag]&gt;&quot;);</div><div class="line">        scanf(&quot;%d,%d %d&quot;,&amp;x,&amp;y,&amp;flag);</div><div class="line">        if(1&gt;x || x&gt;N || 1&gt;y || y&gt;N || 0&gt;flag || flag&gt;1)        //若用户输入的坐标值超出棋盘范围，则给出提示并重新输入</div><div class="line">        &#123;</div><div class="line">            printf(&quot;超出范围,请重新输入\n&quot;);</div><div class="line">            sleep(1);</div><div class="line">            continue;</div><div class="line">        &#125;</div><div class="line">        system(&quot;clear&quot;);</div><div class="line">        x=x-1;y=y-1;                                            //将用户习惯的坐标转换为与二维数组对应的坐标</div><div class="line">        ch=get_mine(head,x,y);                                  //根据用户输入的坐标值，获取雷盘对应位置的值</div><div class="line">        if(ch!=&apos;-&apos; &amp;&amp; ch!=Symbol &amp;&amp; flag==0)                    //根据输入坐标对应的雷盘值来决策玩家是否胜出</div><div class="line">        &#123;</div><div class="line">            set_chess(x,y,ch);</div><div class="line">            update_panel();</div><div class="line">        &#125;</div><div class="line">        else if(ch==Symbol &amp;&amp; flag==1)</div><div class="line">        &#123; </div><div class="line">            M--;                                              //该点为雷，玩家找出雷点，雷的数量减1</div><div class="line">            set_chess(x,y,ch);</div><div class="line">            update_panel();</div><div class="line">        &#125;</div><div class="line">        else if(ch==Symbol &amp;&amp; flag==0)</div><div class="line">        &#123;</div><div class="line">            show_mine();</div><div class="line">            printf(&quot;Game Over\n&quot;);</div><div class="line">            exit(-1);</div><div class="line">        &#125;</div><div class="line">        else if(ch==&apos;-&apos; &amp;&amp; flag==0)</div><div class="line">        &#123;</div><div class="line">            zero_open(x,y);</div><div class="line">            update_panel();</div><div class="line">        &#125;</div><div class="line">        else</div><div class="line">        &#123;</div><div class="line">            M--;                                            //如果玩家将flag设置为1,表示玩家认为该点为雷，则雷的数量减1</div><div class="line">            set_chess(x,y,Symbol);</div><div class="line">            update_panel();</div><div class="line">        &#125;</div><div class="line">        check();</div><div class="line">    &#125;</div><div class="line">    return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>函数功能:让用户输入二维棋牌的大小和布雷的个数<br>参数：N为棋盘的行和列数（N*N），M为雷的个数</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">void set_size()    </div><div class="line">&#123;</div><div class="line">    printf(&quot;棋盘大小_雷的个数&gt;&quot;);</div><div class="line">    scanf(&quot;%d %d&quot;,&amp;N,&amp;M);</div><div class="line">    system(&quot;clear&quot;); </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>函数功能:在棋盘顶部显示棋盘大小和布雷的个数<br>参数：N为棋盘的行和列数（N*N</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">void title()</div><div class="line">&#123;</div><div class="line">    int i;</div><div class="line">    for(i=0;i&lt;3*(N-1)+1;i++)    printf(&quot;-&quot;);</div><div class="line">    printf(&quot;\n&quot;);</div><div class="line">    for(i=0;i&lt;(3*N-22)/2;i++) printf(&quot; &quot;);</div><div class="line">    printf(&quot;棋盘:%d*%d 雷的个数:%d\n&quot;,N,N,M);    </div><div class="line">    for(i=0;i&lt;3*(N-1)+1;i++)    printf(&quot;-&quot;);</div><div class="line">    printf(&quot;\n&quot;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>函数功能:初始化棋盘为N<em>N个‘</em>’<br>参数：N为棋盘的行和列数（N*N）<br>c_panel[N][N]:为全局变量，存放棋盘各点的字符</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line">void panel_init()</div><div class="line">&#123;</div><div class="line">    int i,j;</div><div class="line">    Node *p,*q;</div><div class="line">	for(i=0;i&lt;N;i++)</div><div class="line">	&#123;	for(j=0;j&lt;N;j++)</div><div class="line">		&#123;</div><div class="line">		    p=(Node*)malloc(sizeof(Node));</div><div class="line">		    if(!p)  return;</div><div class="line">		    p-&gt;x=i;</div><div class="line">		    p-&gt;y=j;</div><div class="line">		    p-&gt;chess=&apos;*&apos;;</div><div class="line">		    printf(&quot;%-3c&quot;,p-&gt;chess);</div><div class="line">		    if(!head)</div><div class="line">		    &#123;</div><div class="line">		        head=q=p;</div><div class="line">		        head-&gt;next=NULL;</div><div class="line">		    &#125;</div><div class="line">		    else</div><div class="line">		    &#123;</div><div class="line">		        q-&gt;next=p;</div><div class="line">		        q=p;</div><div class="line">		        q-&gt;next=NULL;</div><div class="line">		    &#125;</div><div class="line">		&#125;</div><div class="line">		printf(&quot;\n&quot;);</div><div class="line">	&#125;</div><div class="line">	 for(i=0;i&lt;3*(N-1)+1;i++)    printf(&quot;-&quot;);</div><div class="line">    printf(&quot;\n&quot;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>函数功能:当玩家输入坐标后根据雷盘来更新棋盘<br>参数：N为棋盘的行和列数（N*N）</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">void update_panel()</div><div class="line">&#123;	</div><div class="line">	Node* p;</div><div class="line">	p=head;</div><div class="line">	title();</div><div class="line">	while(p)</div><div class="line">	&#123;</div><div class="line">	    printf(&quot;%-3c&quot;,p-&gt;chess);</div><div class="line">	    if(N-1==p-&gt;y) printf(&quot;\n&quot;);</div><div class="line">	    p=p-&gt;next;</div><div class="line">	&#125;</div><div class="line">	int i;</div><div class="line">	for(i=0;i&lt;3*(N-1)+1;i++)    printf(&quot;-&quot;);</div><div class="line">    printf(&quot;\n&quot;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">char get_chess(int x,int y)</div><div class="line">&#123;</div><div class="line">    Node* p=head;</div><div class="line">    while(p)</div><div class="line">    &#123;</div><div class="line">        if((x==p-&gt;x) &amp;&amp; (y==p-&gt;y))</div><div class="line">            return p-&gt;chess;       </div><div class="line">        p=p-&gt;next;</div><div class="line">    &#125;    </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">void set_chess(int x,int y,char ch)</div><div class="line">&#123;</div><div class="line">    Node* p=head;</div><div class="line">    while(p)</div><div class="line">    &#123;</div><div class="line">        if((x==p-&gt;x) &amp;&amp; (y==p-&gt;y))</div><div class="line">        &#123;</div><div class="line">            p-&gt;chess=ch; </div><div class="line">            break;</div><div class="line">        &#125;     </div><div class="line">        p=p-&gt;next;</div><div class="line">    &#125;    </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">char get_mine(Node* head,int x,int y)</div><div class="line">&#123;</div><div class="line">    Node* p=head;</div><div class="line">    while(p)</div><div class="line">    &#123;</div><div class="line">        if((x==p-&gt;x) &amp;&amp; (y==p-&gt;y))</div><div class="line">            return p-&gt;mine;       </div><div class="line">        p=p-&gt;next;</div><div class="line">    &#125;    </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">void set_mine(Node* head,int x,int y,char ch)</div><div class="line">&#123;</div><div class="line">   Node* p=head;</div><div class="line">    while(p)</div><div class="line">    &#123;</div><div class="line">        if((x==p-&gt;x) &amp;&amp; (y==p-&gt;y))</div><div class="line">        &#123;</div><div class="line">            p-&gt;mine=ch+48; </div><div class="line">            break;</div><div class="line">        &#125;     </div><div class="line">        p=p-&gt;next;</div><div class="line">    &#125;    </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">void free_all(Node* head)</div><div class="line">&#123;</div><div class="line">    Node* p;</div><div class="line">    p=head;</div><div class="line">    while(p)</div><div class="line">    &#123;</div><div class="line">        free(p);</div><div class="line">        p=p-&gt;next;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>函数功能:根据玩家输入雷的数量来随机产生一个雷盘<br>参数：N为棋盘的行和列数（N*N)<br>g_panel[N][N]:为全局变量，存放生成的雷盘各点的字符</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div></pre></td><td class="code"><pre><div class="line">void mine_assign()</div><div class="line">&#123;</div><div class="line">//-------创建一个动态数组存放M个雷的下标-------/   </div><div class="line">    int* a=(int*)malloc(M*sizeof(int));</div><div class="line">    if(!a)</div><div class="line">    &#123;</div><div class="line">        printf(&quot;内存分配失败\n&quot;);</div><div class="line">        return;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    int i=0,j,k;</div><div class="line">//-------在0～N*N内产生M个不同的下标-------/   </div><div class="line">    srand(time(NULL));</div><div class="line">    a[i++]=rand()%(N*N);</div><div class="line">    while(1)</div><div class="line">    &#123;</div><div class="line">        k=rand()%(N*N);</div><div class="line">        for(j=0;j&lt;i;j++)</div><div class="line">        &#123;</div><div class="line">            if(k==a[j]) break;</div><div class="line">            if(j==i-1)</div><div class="line">              &#123; a[i]=k;i++;break;&#125;</div><div class="line">        &#125;</div><div class="line">        if(i==M)    break;</div><div class="line">    &#125;</div><div class="line">//创建一个临时链表用来辅助计算每个点的周围雷的个数       </div><div class="line">    Node *head_t=NULL,*p,*q=NULL;</div><div class="line">    for(i=0;i&lt;N+2;i++)</div><div class="line">	&#123;	for(j=0;j&lt;N+2;j++)</div><div class="line">		&#123;</div><div class="line">		    p=(Node*)malloc(sizeof(Node));</div><div class="line">		    if(!p)  return;</div><div class="line">		    p-&gt;x=i;</div><div class="line">		    p-&gt;y=j;</div><div class="line">		    p-&gt;mine=0;</div><div class="line">		    for(k=0;k&lt;M;k++)</div><div class="line">		    &#123;</div><div class="line">		        if(a[k]==(i-1)*N+j-1 &amp;&amp; i&gt;=1 &amp;&amp; j&gt;=1 &amp;&amp; i&lt;=N &amp;&amp; j&lt;=N)</div><div class="line">		            p-&gt;mine=1;</div><div class="line">		    &#125;</div><div class="line">		    </div><div class="line">		    if(!head_t)</div><div class="line">		    &#123;</div><div class="line">		        head_t=q=p;</div><div class="line">		        head_t-&gt;next=NULL;</div><div class="line">		    &#125;</div><div class="line">		    else</div><div class="line">		    &#123;</div><div class="line">		        q-&gt;next=p;</div><div class="line">		        q=p;</div><div class="line">		        q-&gt;next=NULL;</div><div class="line">		    &#125;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">//---用临时链表来辅助计算每个点的周围雷的个数---*/</div><div class="line">    char tmp;</div><div class="line">    p=head_t;</div><div class="line">    while(p)</div><div class="line">    &#123;</div><div class="line">        if(p-&gt;x&gt;=1 &amp;&amp; p-&gt;x&lt;=N &amp;&amp; p-&gt;y&gt;=1 &amp;&amp; p-&gt;y&lt;=N)    </div><div class="line">        &#123;    </div><div class="line">                   tmp=get_mine(head_t,p-&gt;x-1,p-&gt;y-1)+</div><div class="line">                       get_mine(head_t,p-&gt;x-1,p-&gt;y)+</div><div class="line">                       get_mine(head_t,p-&gt;x-1,p-&gt;y+1)+</div><div class="line">                       get_mine(head_t,p-&gt;x,p-&gt;y-1)+</div><div class="line">                       get_mine(head_t,p-&gt;x,p-&gt;y+1)+</div><div class="line">                       get_mine(head_t,p-&gt;x+1,p-&gt;y-1)+</div><div class="line">                       get_mine(head_t,p-&gt;x+1,p-&gt;y)+</div><div class="line">                       get_mine(head_t,p-&gt;x+1,p-&gt;y+1)  ;</div><div class="line">            set_mine(head,p-&gt;x-1,p-&gt;y-1,tmp);</div><div class="line">          &#125;             </div><div class="line">        p=p-&gt;next;</div><div class="line">    &#125;</div><div class="line">    free_all(head_t);//辅助链表使用完毕，释放空间</div><div class="line">//--------将雷盘上有雷的地方置为&apos;x&apos;--------*/    </div><div class="line">    p=head;</div><div class="line">    while(p)</div><div class="line">    &#123;</div><div class="line">         for(k=0;k&lt;M;k++)</div><div class="line">		  &#123;</div><div class="line">		        if(a[k]==(p-&gt;x)*N+p-&gt;y)</div><div class="line">		            p-&gt;mine=Symbol;</div><div class="line">  		 &#125;</div><div class="line">  		 if(p-&gt;mine==&apos;0&apos;) p-&gt;mine=&apos;-&apos;;</div><div class="line">        p=p-&gt;next;</div><div class="line">    &#125;</div><div class="line">    free(a);//动态数组使用完毕，释放空间</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">void show_mine()</div><div class="line">&#123;</div><div class="line">    Node* p;</div><div class="line">	p=head;</div><div class="line">	title();</div><div class="line">	while(p)</div><div class="line">	&#123;</div><div class="line">	    printf(&quot;%-3c&quot;,p-&gt;mine);</div><div class="line">	    if(N-1==p-&gt;y) printf(&quot;\n&quot;);</div><div class="line">	    p=p-&gt;next;</div><div class="line">	&#125;</div><div class="line">	int i;</div><div class="line">	for(i=0;i&lt;3*(N-1)+1;i++)    printf(&quot;-&quot;);</div><div class="line">    printf(&quot;\n&quot;);</div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">void check()</div><div class="line">&#123;</div><div class="line">    Node* p;</div><div class="line">    p=head;</div><div class="line">    while(p)</div><div class="line">    &#123;</div><div class="line">        if(p-&gt;chess!=p-&gt;mine)</div><div class="line">            return;</div><div class="line">         p=p-&gt;next;</div><div class="line">    &#125;</div><div class="line">    printf(&quot;You Win !\n&quot;);</div><div class="line">    exit(1);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>zero_open():当玩家输入的坐标刚好为周围一个雷都没有时，则用递归方式将其周围的非雷点都显示出来</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">void  zero_open(int x,int y)</div><div class="line">&#123;   </div><div class="line">    if(x&lt;0||x&gt;=N||y&lt;0||y&gt;=N)                                        //如果坐标值越界则返回</div><div class="line">        return;</div><div class="line">        </div><div class="line">    if(get_mine(head,x,y)==&apos;-&apos; &amp;&amp; get_chess(x,y)==&apos;*&apos;)              //如果雷盘上该点雷的个数为0并且该点用户还没有选择过,则其周围8个点肯定无雷，故用递归将其周围8个点都显示出来</div><div class="line">    &#123;</div><div class="line">       set_chess(x,y,get_mine(head,x,y));</div><div class="line">       zero_open(x-1,y-1);</div><div class="line">    	zero_open(x-1,y);</div><div class="line">      	zero_open(x-1,y+1);</div><div class="line">    	zero_open(x,y-1);</div><div class="line">    	zero_open(x,y+1);</div><div class="line">    	zero_open(x+1,y-1);</div><div class="line">    	zero_open(x+1,y);</div><div class="line">    	zero_open(x+1,y+1);</div><div class="line">    &#125;</div><div class="line">    else</div><div class="line">        set_chess(x,y,get_mine(head,x,y));                      //如果雷盘上该点雷的个数不为零则只将其显示出来</div><div class="line">    	</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/09/14/ubuntu软件备份/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">ubuntu软件备份</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">&emsp;&emsp;&emsp;分享到: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 梓奕
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Blog by Nailfar
+      	</div>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: '/'
+	}
+	//<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+</script>
+
+<script src="/js/jquery.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+  </div>
+</body>
+</html>
